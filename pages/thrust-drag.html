@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Appendix C: Thrust &amp; Drag Computation | CDOSI Book</title>
+        <meta name="description" content="Methodology for intake thrust and drag bookkeeping in propulsion system analysis.">
+        <meta name="author" content="J.P.S. Sandhu, Ik Soo Park, N. Ananthkrishnan">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="https://cdosi-book.github.io/pages/thrust-drag.html">
+        <!-- Open Graph -->
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="Appendix C: Thrust &amp; Drag Computation">
+        <meta property="og:description" content="Methodology for intake thrust and drag bookkeeping in propulsion system analysis.">
+        <meta property="og:url" content="https://cdosi-book.github.io/pages/thrust-drag.html">
+        <meta property="og:image" content="https://cdosi-book.github.io/images/appendix/thrust-drag-fig-c1.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Appendix C: Thrust &amp; Drag Computation">
+        <meta name="twitter:description" content="Methodology for intake thrust and drag bookkeeping in propulsion system analysis.">
+        <meta name="twitter:image" content="https://cdosi-book.github.io/images/appendix/thrust-drag-fig-c1.png">
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "Appendix C: Thrust & Drag Computation",
+            "datePublished": "2025-11-26",
+            "author": [{"@type":"Person","name":"J.P.S. Sandhu"},{"@type":"Person","name":"Ik Soo Park"},{"@type":"Person","name":"N. Ananthkrishnan"}],
+            "publisher": {"@type":"Organization","name":"CDOSI Book","logo":"https://cdosi-book.github.io/images/book/book_cover.jpg"},
+            "mainEntityOfPage": "https://cdosi-book.github.io/pages/thrust-drag.html"
+        }
+        </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+<body class="page-body">
+    <header>
+        <a href="../index.html" class="logo">CDOSI Book</a>
+        <nav>
+            <a href="../index.html#features">Key Topics</a>
+            <a href="../index.html#contents">Contents</a>
+            <a href="../index.html#authors">Authors</a>
+            <a href="../index.html#resources">Resources</a>
+            <div class="dropdown header-dropdown">
+                <button class="btn btn-header-order">Order</button>
+                <div class="dropdown-content">
+                    <a href="https://www.routledge.com/Computational-Design-and-Optimization-of-Supersonic-Intakes/Sandhu-Park-Ananthkrishnan/p/book/9781032794570" target="_blank">CRC Press</a>
+                    <a href="https://www.amazon.com/s?k=9781040446003&i=stripbooks&linkCode=qs" target="_blank">Amazon.com</a>
+                    <a href="https://www.amazon.in/Computational-Design-Optimization-Supersonic-Intakes/dp/1032794577" target="_blank">Amazon.in</a>
+                    <a href="https://www.google.co.in/books/edition/Computational_Design_and_Optimization_of/4nSKEQAAQBAJ?hl=en&gbpv=1&printsec=frontcover" target="_blank">Google Books</a>
+                </div>
+            </div>
+        </nav>
+        <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main class="page-content">
+        <article>
+            <header class="article-header">
+                <div class="article-header-content">
+                    <h2 class="appendix-label">Appendix C</h2>
+                    <h1>Thrust and Drag Computation</h1>
+                    <p class="article-meta">Computational Design and Optimization of Supersonic Intakes<br>
+                    by Dr. J.P.S. Sandhu, Dr. Ik Soo Park &amp; Dr. N. Ananthkrishnan<br>
+                    1st ed., CRC Press, November 2025, Pages 164--170
+                    </p>
+                </div>
+            </header>
+
+            <div class="article-body">
+                <section id="introduction">
+                    <p>
+                        The objective of this appendix is to present a systematic analysis of the thrust-drag bookkeeping in case of an air-breathing propulsion vehicle and to develop the methodology necessary for calculating these forces. The methodology developed in this appendix using control volume approach for the aerodynamic analysis is based on the work done by Cross [1]. At first, we develop a thrust calculation by examining forces within a control volume from freestream to nozzle exit. Using Newton's second law and key assumptions, we derive an expression for uninstalled thrust that considers momentum and pressure effects. Subsequently, we analyze drag components and their interaction with thrust forces during powered and unpowered flight phases.
+                    </p>
+                </section>
+
+                <section id="thrust-calculation">
+                    <h2>C.1 Thrust Calculation</h2>
+                    <p>
+                        Thrust calculation is a crucial aspect an air-breathing propulsion vehicle, as it directly impacts the performance and calculation of aerodynamic drag in powered mode of operation. This section presents a detailed methodology for accurately computing thrust using a control volume approach. By analyzing the forces and momentum changes within the defined control volume, we can evaluate the thrust generated by the air-breathing propulsion vehicle.
+                    </p>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/thrust-drag-fig-c1.png"
+                             alt="Control volume for uninstalled thrust calculation"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure C.1: Illustration of control volume used for uninstalled thrust calculation</figcaption>
+                    </figure>
+
+                    <p>
+                        Figure C.1 illustrates an example of an air-breathing propulsion vehicle with important stations marked. The sketch in the figure depicts three main components: a supersonic intake that captures and compresses the incoming air, a combustion chamber where fuel is mixed and burned with the compressed air, and a nozzle that accelerates the hot exhaust gases to produce thrust. The control volume used for thrust calculation is defined by the capture streamtube, which extends from the freestream station (0) to the nozzle exit (6). This volume encompasses the entire flow path of the fluid through the air-breathing propulsion vehicle. Figure C.1 illustrates this control volume with a dashed red line, providing a visual representation of the control volume's boundaries. The thrust vector aligns with the horizontal direction of the air-breathing propulsion vehicle, simplifying the calculations by focusing on forces and velocities in this direction.
+                    </p>
+
+                    <p>
+                        Within this control volume, two primary forces act on the fluid. The first is <em>F<sub>duct</sub></em>, which represents the force exerted on the fluid by the internal duct surface. This force accounts for all interactions between the fluid and the vehicle's internal structure, including pressure forces and viscous effects. The second force is <em>F<sub>additive</sub></em>, which is applied to the fluid in the pre-entry section between stations 0 and 1. This force captures the effects of the flow field ahead of the inlet, including any compression or expansion that occurs before the fluid enters the air-breathing propulsion vehicle.
+                    </p>
+
+                    <p>
+                        To calculate the thrust, Newton's second law of motion is applied to the control volume. The net force acting on the system is equal to the rate of change of momentum. This principle is expressed mathematically as:
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{additive}} + F_{\text{duct}} - \int_6 (p - p_{\text{ref}}) \mathbf{n} \, dS - \int_0 (p - p_{\text{ref}}) \mathbf{n} \, dS = \int_6 \rho u \mathbf{V} \cdot \mathbf{n} \, dS + \int_0 \rho u \mathbf{V} \cdot \mathbf{n} \, dS$$
+                        <span class="eq-number">(C.1)</span>
+                    </div>
+
+                    <p>
+                        Here, <strong>n</strong> is the unit vector pointing outward from the control volume, <em>u</em> is the axial component of the velocity vector <strong>V</strong>, ρ is the fluid density, and <em>p</em> is the pressure. Assuming uniform values at stations 0 and 6, the surface integrals can be simplified. For the purpose of this analysis, we assume that the vehicle operates at a zero angle of attack, which means that vehicle is aligned with the freestream velocity. This assumption allows us to focus on the horizontal components of forces and velocities, as they are the primary contributors to thrust and drag. Under this condition, the net <em>F<sub>duct</sub></em> and <em>F<sub>additive</sub></em> force acting on the control volume is expected to be in the horizontal direction. To simplify the thrust calculation, we assign unit-normal vector values of -1 at station 0 and 1 at station 6 in Equation (C.1):
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{additive}} + F_{\text{duct}} = \dot{m}_6 u_6 - \dot{m}_0 u_0 + (p_6 - p_{\text{ref}})S_6 - (p_0 - p_{\text{ref}})S_0$$
+                        <span class="eq-number">(C.2)</span>
+                    </div>
+
+                    <p>
+                        In Equation (C.2), ṁ<sub>i</sub> represents the mass flow rate through face "i", <em>u<sub>i</sub></em> denotes the velocity at station "i", <em>p<sub>i</sub></em> is the pressure at station "i", and <em>S<sub>i</sub></em> is the cross-sectional area at station "i".
+                    </p>
+
+                    <p>
+                        In practical applications, the mass flow rate through station 6 is assumed to be approximately equal to that at station 0, neglecting the relatively small contribution of fuel mass flow rate (ṁ<sub>f</sub>). This simplifies the mass flow rate to a single value, ṁ, throughout the system.
+                    </p>
+
+                    <div class="equation">
+                        $$\dot{m}_6 \approx \dot{m}_0 = \dot{m}$$
+                        <span class="eq-number">(C.3)</span>
+                    </div>
+
+                    <p>
+                        The freestream pressure (<em>p</em><sub>0</sub>) is commonly used as the reference pressure for calculations, providing a consistent baseline for measuring pressure changes. Incorporating all these considerations, the equation for uninstalled thrust (<em>T</em>) is derived as:
+                    </p>
+
+                    <div class="equation">
+                        $$T = \dot{m}(u_6 - u_0) + (p_6 - p_0)S_6$$
+                        <span class="eq-number">(C.4)</span>
+                    </div>
+
+                    <p>
+                        Equation (C.4) encapsulates the net force in the axial direction acting on the fluid within our control volume. The first term, ṁ(<em>u</em><sub>6</sub> - <em>u</em><sub>0</sub>), represents the change in momentum flux between the inlet and exit of the air-breathing propulsion vehicle. The second term, (<em>p</em><sub>6</sub> - <em>p</em><sub>0</sub>)<em>S</em><sub>6</sub>, accounts for the pressure thrust, which arises from the difference between exit and ambient pressures acting over the nozzle exit area. If the fluid at station 6 were to expand completely to freestream pressure (<em>p</em><sub>6</sub> = <em>p</em><sub>0</sub>), the pressure differential between the nozzle exit and freestream would be fully converted into kinetic energy. In this case, the thrust would be generated entirely through the momentum term in Equation (C.4), with no contribution from the pressure term.
+                    </p>
+                </section>
+
+                <section id="aerodynamic-drag">
+                    <h2>C.2 Aerodynamic Drag Force</h2>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/thrust-drag-fig-c2.png"
+                             alt="Surface for drag integration"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure C.2: Illustration of the surface over which drag is integrated for an air-breathing propulsion vehicle geometry</figcaption>
+                    </figure>
+
+                    <p>
+                        The vehicle experiences a net aerodynamic force (<em>F<sub>aerodynamic</sub></em>) exerted by the working fluid over its total wetted surface area, as illustrated by the red dashed line in Figure C.2. This force comprises two primary components: thrust (<em>T</em>), which propels the vehicle forward, and drag (<em>D</em>), which opposes its motion. The relationship between these forces can be expressed mathematically as:
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{aerodynamic}} = -T + D$$
+                        <span class="eq-number">(C.5)</span>
+                    </div>
+
+                    <p>
+                        In Equation (C.5), the thrust force acting on the fluid is considered positive. The negative sign before <em>T</em> signifies that the thrust force on the body is equal in magnitude but opposite in direction to the thrust force acting on the fluid within the control volume, as previously calculated in Equation (C.4). The following section provides a detailed description of the various components of the drag force and derives the formula for calculating the total drag force acting on a air-breathing propulsion vehicle.
+                    </p>
+                </section>
+
+                <section id="drag-components">
+                    <h2>C.3 Components of Drag Force</h2>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/thrust-drag-fig-c3.png"
+                             alt="Drag components illustration"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure C.3: Illustration of drag components for an air-breathing propulsion vehicle</figcaption>
+                    </figure>
+
+                    <p>
+                        To analyze the drag force, we must consider the various components of <em>F<sub>aerodynamic</sub></em>, which originate from different parts of the air-breathing propulsion vehicle's structure. The total force is determined by integrating pressure and viscous forces over the entire airframe surface of the vehicle, as highlighted by red dashed line in Figure C.2. The total force can be decomposed into different components based on the contribution from the different parts of the vehicle.
+                    </p>
+
+                    <p>
+                        Firstly, we have <em>F<sub>body</sub></em>, which represents the external pressure and skin-friction forces acting on the external wetted airframe "body" of the vehicle. This component includes the base component as illustrated by the red dashed line in Figure C.3. Secondly, <em>F<sub>duct</sub></em> denotes the pressure and viscous forces exerted by the fluid flowing inside the internal "duct" of the propulsion vehicle, between stations 1 to 6. This is represented by the blue dashed line in Figure C.3. Lastly, <em>F<sub>cone</sub></em> accounts for the forces acting on the external wetted surface of the "cone" (or "ramp" in case of 2D intake) between stations 0 and 1, shown as the green wetted surface in the same figure.
+                    </p>
+
+                    <p>
+                        The sum of the forces represents the net "aerodynamic" force, <em>F<sub>aerodynamic</sub></em>, acting on the vehicle's body:
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{aerodynamic}} = F_{\text{body}} + F_{\text{duct}} + F_{\text{cone}}$$
+                        <span class="eq-number">(C.6)</span>
+                    </div>
+
+                    <p>
+                        So, combining equations (C.6) and (C.5), drag force on the air-breathing propulsion vehicle can be obtained as:
+                    </p>
+
+                    <div class="equation">
+                        $$D = F_{\text{body}} + F_{\text{duct}} + F_{\text{cone}} + T$$
+                        <span class="eq-number">(C.7)</span>
+                    </div>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/thrust-drag-fig-c4.png"
+                             alt="Control volume for internal duct forces"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure C.4: Control volume used for calculation of forces on internal duct surface F<sub>duct</sub></figcaption>
+                    </figure>
+
+                    <p>
+                        The thrust force can be calculated using the formula obtained in Equation (C.4), however, the calculation of <em>F<sub>body</sub></em>, <em>F<sub>duct</sub></em>, and <em>F<sub>cone</sub></em> requires integration of shear stress and pressure distribution over the entire wetted surface highlighted using dashed line in Figure C.3. The integration process accounts for variations in pressure and shear stress distributions along the vehicle's contours. This requires detailed knowledge of the vehicle's geometry and flow conditions. <em>F<sub>body</sub></em> is the force acting on the external wetted surface and can be calculated by integrating pressure and viscous forces over the airframe body's surface. The internal duct force <em>F<sub>duct</sub></em> can be obtained by performing a similar integral on the internal wetted surface or using the control volume, as defined in red in Figure C.4, to find the force applied by the fluid on the internal duct surface. Using the control volume approach, the internal duct force <em>F<sub>duct</sub></em> can be obtained as:
+                    </p>
+
+                    <div class="equation">
+                        $$-F_{\text{duct}} - \int_6 (p_6 - p_{\text{ref}}) \mathbf{n} \, dS - \int_1 (p_1 - p_{\text{ref}}) \mathbf{n} \, dS = \int_6 \rho u \mathbf{V} \cdot \mathbf{n} \, dS + \int_1 \rho u \mathbf{V} \cdot \mathbf{n} \, dS$$
+                        <span class="eq-number">(C.8)</span>
+                    </div>
+
+                    <p>
+                        Rearranging, we get expression in terms of <em>F<sub>duct</sub></em>:
+                    </p>
+
+                    <div class="equation">
+                        $$-F_{\text{duct}} = \int_6 (p_6 - p_{\text{ref}}) \mathbf{n} \, dS + \int_1 (p_1 - p_{\text{ref}}) \mathbf{n} \, dS + \int_6 \rho u \mathbf{V} \cdot \mathbf{n} \, dS + \int_1 \rho u \mathbf{V} \cdot \mathbf{n} \, dS$$
+                        <span class="eq-number">(C.9)</span>
+                    </div>
+
+                    <p>
+                        The minus sign arises because the forces acting on the internal duct surface are taken as positive, and an equal and opposite force will act on the boundary of the control volume. In Equation (C.9), <em>p<sub>ref</sub></em> represents the reference pressure, which we typically take as the free stream pressure at station 0 (<em>p</em><sub>0</sub>). The integrals account for the pressure differences and momentum fluxes at the duct inlet (station 1) and exit (station 6). We can simplify this equation by considering the area unit normal (1 at exit plane 6 and -1 at station 1) and expressing it in terms of mass flow rate and velocities:
+                    </p>
+
+                    <div class="equation">
+                        $$-F_{\text{duct}} = (p_6 - p_0)S_6 + (p_1 - p_0)S_1 + \dot{m}u_6 + \dot{m}u_1$$
+                        <span class="eq-number">(C.10)</span>
+                    </div>
+
+                    <p>
+                        Here, <em>S</em><sub>6</sub> and <em>S</em><sub>1</sub> represent the cross-sectional areas at stations 6 and 1, respectively, while ṁ denotes the mass flow rate of air through the duct. By substituting the expressions for <em>T</em> (from Equation (C.4)) and <em>F<sub>duct</sub></em> (from Equation (C.10)) into Equation (C.7), we can derive a formula for drag.
+                    </p>
+
+                    <div class="equation">
+                        $$D = F_{\text{body}} + F_{\text{cone}} + (p_1 - p_0)S_1 + \dot{m}u_1 - \dot{m}u_6 - (p_6 - p_0)S_6 + \dot{m}(u_6 - u_0) + (p_6 - p_0)S_6$$
+                        <span class="eq-number">(C.11)</span>
+                    </div>
+
+                    <p>
+                        After simplification, Equation (C.11) becomes:
+                    </p>
+
+                    <div class="equation">
+                        $$D = F_{\text{body}} + F_{\text{cone}} + (p_1 - p_0)S_1 + \dot{m}u_1 - \dot{m}u_0$$
+                        <span class="eq-number">(C.12)</span>
+                    </div>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/thrust-drag-fig-c5.png"
+                             alt="Control volume for additive drag"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure C.5: Control volume used for additive drag calculation</figcaption>
+                    </figure>
+
+                    <p>
+                        Equation (C.12) provides a representation of the total drag acting on the vehicle in terms of subcomponents. It accounts for the forces on the external wetted surface of the vehicle's body (<em>F<sub>body</sub></em>), the forces on the external wetted surface of the cones (<em>F<sub>cone</sub></em>), and the pressure and momentum flux through the interface at station 1. The third and fourth terms on the right-hand side of Equation (C.12), namely (<em>p</em><sub>1</sub> - <em>p</em><sub>0</sub>)<em>S</em><sub>1</sub> and ṁ<em>u</em><sub>1</sub>, collectively represent the force acting at the interface at station 1, which we refer to as the interface force (<em>F<sub>interface</sub></em>). This interface force is illustrated in Figure C.5.
+                    </p>
+
+                    <p>
+                        Therefore, the drag force can be represented as:
+                    </p>
+
+                    <div class="equation">
+                        $$D = F_{\text{body}} + F_{\text{cone}} + F_{\text{interface}} - F_{\text{ram}}$$
+                        <span class="eq-number">(C.13)</span>
+                    </div>
+
+                    <p>
+                        where,
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{interface}} = (p_1 - p_0)S_1 + \dot{m}u_1$$
+                        <span class="eq-number">(C.14)</span>
+                    </div>
+
+                    <p>
+                        and
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{ram}} = \dot{m}u_0$$
+                        <span class="eq-number">(C.15)</span>
+                    </div>
+                </section>
+
+                <section id="operational-considerations">
+                    <h2>C.4 Operational Considerations and Importance of Drag</h2>
+                    <p>
+                        It is crucial to understand that the drag calculations presented above are applicable when the propulsion system is operational and thrust is non-zero. During this phase, the ram force term (<em>F<sub>ram</sub></em> = ṁ<em>u</em><sub>0</sub>) is included in the drag calculation due to the presence of thrust. The forces acting on the internal wetted surface, including those on the nozzle, are absorbed into the thrust calculation.
+                    </p>
+                    <p>
+                        For shell-type projectiles, the drag force holds particular significance. Unlike conventional aircraft or missiles where internal flow efficiency or total pressure recovery might be paramount, shells operate their combustion or engine systems for only a fraction of their total flight time. This means that while thrust acts for a limited duration, drag is a constant factor throughout the entire flight trajectory. Consequently, minimizing the forces that oppose the shell's motion becomes a critical design consideration for optimizing overall performance.
+                    </p>
+                    <p>
+                        When the shell enters a coasting mode, typically after the propulsion system has ceased operation, the aerodynamic analysis must be adjusted. In this phase, the momentum and pressure forces through the nozzle exit become significant factors and must be explicitly included in the drag calculation. This shift in calculation methodology reflects the changing dynamics of the shell's flight as it transitions from powered to unpowered motion.
+                    </p>
+                </section>
+
+                <section id="additive-drag">
+                    <h2>C.5 Additive Drag</h2>
+                    <p>
+                        Additive drag, also known as pre-entry drag [2], is a crucial component of the overall drag force acting on a vehicle, particularly in supersonic flow conditions. This phenomenon occurs when the capture area of the inlet is smaller than the cowl section, resulting in a complex interaction between the incoming flow and the vehicle's geometry. Specifically, additive drag arises when the shock waves generated by the cone or ramps do not meet precisely at the cowl lip, a situation that typically occurs when the inlet is operating at off-design conditions or when the capture area is intentionally designed to be smaller than the cowl section for specific performance reasons.
+                    </p>
+                    <p>
+                        The net drag on the shell can be expressed as a combination of the airframe body drag and the additional drag incurred due to the mismatch between the capture area and the cowl section. Mathematically, we can represent the total drag as:
+                    </p>
+
+                    <div class="equation">
+                        $$D = F_{\text{body}} + F_{\text{additive}}$$
+                        <span class="eq-number">(C.16)</span>
+                    </div>
+
+                    <p>
+                        And, the pre-entry drag or additive drag (<em>F<sub>additive</sub></em>) is then given as:
+                    </p>
+
+                    <div class="equation">
+                        $$F_{\text{additive}} = F_{\text{cone}} + F_{\text{interface}} - F_{\text{ram}}$$
+                        <span class="eq-number">(C.17)</span>
+                    </div>
+
+                    <p>
+                        This formulation provides a quantitative measure of the additional drag force experienced by the shell due to the inlet configuration. We can arrive at the same formulation for additive drag by analysing the control volume shown using the red dashed line in Figure C.5.
+                    </p>
+                    <p>
+                        The boundary streamline of the capture streamtube experiences pressure forces, depicted by black arrows perpendicular to the streamline in the figure. From the freestream conditions to the shock intersection point, these pressure forces balance each other due to the axisymmetric or horizontal nature of the streamtube. However, after the shock intersection point, the streamtube expands and curves. This curvature creates a net force in the axial direction, aligned with the direction of drag. This additional drag force, resulting from the streamtube's curvature, is what we refer to as the "additive" drag force. It is important to note that the additive drag force would be zero if the cowl lip were positioned exactly at the shock intersection point, though this ideal condition is rarely achieved in practice, especially across a wide range of operating conditions.
+                    </p>
+                    <p>
+                        When calculating the additive drag force (<em>F<sub>additive</sub></em>) using the integration of pressure force over the boundary streamline shown in Figure C.5, the total drag force can be calculated using Equation (C.16). The additive drag subsumes cone/ramp, interface and ram force components and they do not need to be accounted for separately.
+                    </p>
+                </section>
+
+                <section id="references">
+                    <h2>References</h2>
+                    <ol class="references-list">
+                        <li>Cross, P. G., "Force and Moment Accounting Procedure for Vehicles With Air-Breathing Propulsion Systems," NAWCWD TM 8907, NAVAL AIR WARFARE CENTER WEAPONS DIVISION, China Lake, CA, May 2021.</li>
+                        <li>Faro, I. D. V., "Supersonic Inlets," AGARDograph 102, AGARD-NATO Fluid Dynamics Panel, May 1965.</li>
+                    </ol>
+                </section>
+            </div>
+        </article>
+
+        <aside class="page-sidebar">
+            <h3>Other Appendices</h3>
+            <nav class="appendix-nav">
+                <ul>
+                    <li><a href="boundary-layer.html">Appendix B: Boundary Layer Corrections</a></li>
+                    <li><a href="https://github.com/cdosi-book/ROAM-code" target="_blank">Appendix A: ROAM Code (GitHub)</a></li>
+                </ul>
+            </nav>
+
+            <h3>On This Page</h3>
+            <nav class="toc">
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#thrust-calculation">C.1 Thrust Calculation</a></li>
+                    <li><a href="#aerodynamic-drag">C.2 Aerodynamic Drag Force</a></li>
+                    <li><a href="#drag-components">C.3 Components of Drag Force</a></li>
+                    <li><a href="#operational-considerations">C.4 Operational Considerations</a></li>
+                    <li><a href="#additive-drag">C.5 Additive Drag</a></li>
+                    <li><a href="#references">References</a></li>
+                </ul>
+            </nav>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <p class="footer-copyright">&copy; 2025 J.P.S. Sandhu, Ik Soo Park, N. Ananthkrishnan. All rights reserved.</p>
+                <p class="footer-publisher">Published by Routledge (Taylor &amp; Francis Group)</p>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Related Papers</h4>
+                <ul class="footer-links">
+                    <li><a href="https://journals.sagepub.com/doi/abs/10.1177/09544100251383692" target="_blank">SAGE Journals Article</a></li>
+                    <li><a href="https://arxiv.org/abs/2503.02912" target="_blank">arXiv:2503.02912</a></li>
+                    <li><a href="https://arxiv.org/abs/2401.16750" target="_blank">arXiv:2401.16750</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/cdosi-book/ROAM-code" target="_blank">GitHub Repository</a></li>
+                    <li><a href="../index.html#contents">Table of Contents</a></li>
+                    <li><a href="../index.html#authors">About the Authors</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MathJax for equations -->
+    <script src="../js/main.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Syntax highlighting for code -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

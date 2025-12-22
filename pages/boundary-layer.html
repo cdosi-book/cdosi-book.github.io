@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Appendix B: Boundary Layer Value Corrections | CDOSI Book</title>
+        <meta name="description" content="Computing boundary layer displacement thickness corrections for supersonic intake calculations.">
+        <meta name="author" content="J.P.S. Sandhu, Ik Soo Park, N. Ananthkrishnan">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="https://cdosi-book.github.io/pages/boundary-layer.html">
+        <!-- Open Graph -->
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="Appendix B: Boundary Layer Value Corrections">
+        <meta property="og:description" content="Computing boundary layer displacement thickness corrections for supersonic intake calculations.">
+        <meta property="og:url" content="https://cdosi-book.github.io/pages/boundary-layer.html">
+        <meta property="og:image" content="https://cdosi-book.github.io/images/appendix/boundary-layer-fig-b1.png">
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Appendix B: Boundary Layer Value Corrections">
+        <meta name="twitter:description" content="Computing boundary layer displacement thickness corrections for supersonic intake calculations.">
+        <meta name="twitter:image" content="https://cdosi-book.github.io/images/appendix/boundary-layer-fig-b1.png">
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "Appendix B: Boundary Layer Value Corrections",
+            "datePublished": "2025-11-26",
+            "author": [{"@type":"Person","name":"J.P.S. Sandhu"},{"@type":"Person","name":"Ik Soo Park"},{"@type":"Person","name":"N. Ananthkrishnan"}],
+            "publisher": {"@type":"Organization","name":"CDOSI Book","logo":"https://cdosi-book.github.io/images/book/book_cover.jpg"},
+            "mainEntityOfPage": "https://cdosi-book.github.io/pages/boundary-layer.html"
+        }
+        </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+<body class="page-body">
+    <header>
+        <a href="../index.html" class="logo">CDOSI Book</a>
+        <nav>
+            <a href="../index.html#features">Key Topics</a>
+            <a href="../index.html#contents">Contents</a>
+            <a href="../index.html#authors">Authors</a>
+            <a href="../index.html#resources">Resources</a>
+            <div class="dropdown header-dropdown">
+                <button class="btn btn-header-order">Order</button>
+                <div class="dropdown-content">
+                    <a href="https://www.routledge.com/Computational-Design-and-Optimization-of-Supersonic-Intakes/Sandhu-Park-Ananthkrishnan/p/book/9781032794570" target="_blank">CRC Press</a>
+                    <a href="https://www.amazon.com/s?k=9781040446003&i=stripbooks&linkCode=qs" target="_blank">Amazon.com</a>
+                    <a href="https://www.amazon.in/Computational-Design-Optimization-Supersonic-Intakes/dp/1032794577" target="_blank">Amazon.in</a>
+                    <a href="https://www.google.co.in/books/edition/Computational_Design_and_Optimization_of/4nSKEQAAQBAJ?hl=en&gbpv=1&printsec=frontcover" target="_blank">Google Books</a>
+                </div>
+            </div>
+        </nav>
+        <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main class="page-content">
+        <article>
+            <header class="article-header">
+                <div class="article-header-content">
+                    <h2 class="appendix-label">Appendix B</h2>
+                    <h1>Computing Boundary Layer Value Correction</h1>
+                    <p class="article-meta">Computational Design and Optimization of Supersonic Intakes<br>
+                    by Dr. J.P.S. Sandhu, Dr. Ik Soo Park &amp; Dr. N. Ananthkrishnan<br>
+                    1st ed., CRC Press, November 2025, Pages 160--163
+                    </p>
+                </div>
+            </header>
+
+            <div class="article-body">
+                <section id="introduction">
+                    <p>
+                        The development of boundary layers along supersonic intake surfaces presents a significant aerodynamic challenge that directly influences the external compression shock structure. When high-speed air flows along intake surfaces, it does not simply follow the geometric contours we design on paper. Instead, it creates a thin layer of affected flow—the boundary layer—that effectively reshapes the path air takes through the intake. This appendix explores how we account for these boundary layer effects through what is called the Boundary Layer Value Correction (BLVC).
+                    </p>
+                </section>
+
+                <section id="displacement-thickness">
+                    <h2>B.1 Displacement Thickness</h2>
+                    <p>
+                        In an ideal world, air would follow the surface of the external compression ramps. However, the reality is more complex—the boundary layer causes the main flow to deviate from this intended path. To quantify this deviation, we use the concept called displacement thickness, denoted by δ*.
+                    </p>
+                    <p>
+                        As shown in Figure B.1, displacement thickness represents how much the boundary layer "pushes" the main flow away from the wall. Mathematically, we express this as:
+                    </p>
+
+                    <div class="equation">
+                        $$\delta^* = \int_0^\delta \left(1 - \frac{\rho u}{\rho_e u_e}\right) dy$$
+                        <span class="eq-number">(B.1)</span>
+                    </div>
+
+                    <p>
+                        where δ is the boundary layer thickness, and <em>y</em> represents the wall-normal distance. Equation (B.1) integrates the flow properties through the boundary layer, giving us a measure of its effective thickness.
+                    </p>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/boundary-layer-fig-b1.png"
+                             alt="Illustration of the concept of displacement thickness"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure B.1: Illustration of the concept of displacement thickness</figcaption>
+                    </figure>
+                </section>
+
+                <section id="methodology">
+                    <h2>B.2 Methodology for Boundary Layer Analysis</h2>
+                    <p>
+                        The implementation of boundary layer analysis relies on systematic computational fluid dynamics (CFD) data processing. The methodology employs wall-normal probe lines oriented perpendicular to the ramp surface, as depicted in Figure B.2. These probe lines serve as discrete sampling locations for flow property extraction, establishing the foundation for boundary layer characterization and subsequent geometric corrections.
+                    </p>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/boundary-layer-fig-b2.png"
+                             alt="Perpendicular probe lines for boundary layer calculation"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure B.2: The perpendicular probe lines (only a few shown) are used for the calculation of boundary layer properties</figcaption>
+                    </figure>
+                </section>
+
+                <section id="edge-detection">
+                    <h2>B.3 Boundary Layer Edge Detection</h2>
+                    <p>
+                        The boundary layer edge, defined by δ, is critical for calculating δ* accurately. In flows without significant pressure gradients, this edge is typically defined as the point where the wall-normal velocity reaches 99% of the freestream velocity, <em>U<sub>e</sub></em>, as shown in Figure B.1.
+                    </p>
+
+                    <div class="equation">
+                        $$\frac{U}{U_e} = 0.99$$
+                        <span class="eq-number">(B.2)</span>
+                    </div>
+
+                    <p>
+                        However, in cases with strong pressure gradients, such as those encountered in intakes, defining a stable <em>U<sub>e</sub></em> value is challenging. An initial estimate for the boundary layer edge can instead be obtained using a vorticity-based criterion [1]:
+                    </p>
+
+                    <div class="equation">
+                        $$\frac{-y\Omega_z}{\max(-y\Omega_z)} = C_\Omega$$
+                        <span class="eq-number">(B.3)</span>
+                    </div>
+
+                    <p>
+                        Where <em>C<sub>Ω</sub></em> is an empirical parameter taken as 0.02 for the standard boundary layer thickness criterion of 99% of freestream velocity [1]. This criterion identifies the boundary layer edge based on the wall-normal vorticity threshold, capturing boundary layer behavior up to a certain limit, as illustrated in Figure B.3 for E3 theoretical supersonic intake. The boundary layer thickness obtained is shown using the white line over the contours of z-vorticity in Figure B.3.
+                    </p>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/boundary-layer-fig-b3.png"
+                             alt="Boundary layer edge detection using vorticity sensor"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure B.3: Boundary layer edge detection using vorticity sensor</figcaption>
+                    </figure>
+
+                    <p>
+                        Near high-vorticity regions, such as downstream of terminal shocks, the vorticity-based approach can lose accuracy. A sudden jump in the white line in Figure B.3 behind the terminal shock illustrates the difficulty this method faces in high-vorticity regions. To address this, a secondary filter using the local velocity profile is applied on top of the first vorticity-based filter, refining the boundary layer edge:
+                    </p>
+
+                    <div class="equation">
+                        $$\frac{U}{U_\infty} = 0.99$$
+                        <span class="eq-number">(B.4)</span>
+                    </div>
+
+                    <p>
+                        This combined approach, illustrated in Figure B.4, offers a more precise measurement of the boundary layer, particularly in complex flow regions.
+                    </p>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/boundary-layer-fig-b4.png"
+                             alt="Boundary layer edge detection using velocity profile filter"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure B.4: Boundary layer edge detection using velocity profile filter over the vorticity sensor</figcaption>
+                    </figure>
+                </section>
+
+                <section id="ramp-corrections">
+                    <h2>B.4 Displacement Thickness and Ramp Angle Corrections</h2>
+                    <p>
+                        The calculated displacement thickness distribution, visualized in Figure B.5 by the white line, exhibits characteristic streamwise growth with distinct discontinuities across shock waves. The angular difference between the displacement thickness distribution and the original ramp geometry determines the requisite corrections to the ramp angles. These corrections ensure that the effective flow path, incorporating boundary layer effects, generates shock structures consistent with the theoretical design specifications.
+                    </p>
+                    <p>
+                        This approach to boundary layer correction maintains broad applicability across external and mixed compression intake configurations. The methodology establishes a framework for reconciling theoretical design parameters with viscous flow effects, ultimately closing the gap between the theoretically expected aerodynamic performance and that practically obtained in real-world applications for supersonic intakes.
+                    </p>
+
+                    <figure class="article-figure">
+                        <img src="../images/appendix/boundary-layer-fig-b5.png"
+                             alt="Displacement thickness shown over the ramps"
+                             onerror="this.parentElement.style.display='none';">
+                        <figcaption>Figure B.5: Displacement thickness shown using white line over the ramps and upper wall of subsonic diffuser</figcaption>
+                    </figure>
+                </section>
+
+                <section id="references">
+                    <h2>References</h2>
+                    <ol class="references-list">
+                        <li>Uzun, A., and Malik, M. R., "Simulation of a Turbulent Flow Subjected to Favorable and Adverse Pressure Gradients," <em>Theoretical and Computational Fluid Dynamics</em>, Vol. 35, No. 3, 2021, pp. 293–329. <a href="https://doi.org/10.1007/s00162-020-00558-4" target="_blank">https://doi.org/10.1007/s00162-020-00558-4</a></li>
+                    </ol>
+                </section>
+            </div>
+        </article>
+
+        <aside class="page-sidebar">
+            <h3>Other Appendices</h3>
+            <nav class="appendix-nav">
+                <ul>
+                    <li><a href="thrust-drag.html">Appendix C: Thrust &amp; Drag Computation</a></li>
+                    <li><a href="https://github.com/cdosi-book/ROAM-code" target="_blank">Appendix A: ROAM Code (GitHub)</a></li>
+                </ul>
+            </nav>
+
+            <h3>On This Page</h3>
+            <nav class="toc">
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#displacement-thickness">B.1 Displacement Thickness</a></li>
+                    <li><a href="#methodology">B.2 Methodology for Boundary Layer Analysis</a></li>
+                    <li><a href="#edge-detection">B.3 Boundary Layer Edge Detection</a></li>
+                    <li><a href="#ramp-corrections">B.4 Displacement Thickness and Ramp Angle Corrections</a></li>
+                    <li><a href="#references">References</a></li>
+                </ul>
+            </nav>
+        </aside>
+    </main>
+
+<footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <p class="footer-copyright">&copy; 2025 J.P.S. Sandhu, Ik Soo Park, N. Ananthkrishnan. All rights reserved.</p>
+                <p class="footer-publisher">Published by Routledge (Taylor &amp; Francis Group)</p>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Related Papers</h4>
+                <ul class="footer-links">
+                    <li><a href="https://journals.sagepub.com/doi/abs/10.1177/09544100251383692" target="_blank">SAGE Journals Article</a></li>
+                    <li><a href="https://arxiv.org/abs/2503.02912" target="_blank">arXiv:2503.02912</a></li>
+                    <li><a href="https://arxiv.org/abs/2401.16750" target="_blank">arXiv:2401.16750</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/cdosi-book/ROAM-code" target="_blank">GitHub Repository</a></li>
+                    <li><a href="../index.html#contents">Table of Contents</a></li>
+                    <li><a href="../index.html#authors">About the Authors</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MathJax for equations -->
+    <script src="../js/main.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Syntax highlighting for code -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
