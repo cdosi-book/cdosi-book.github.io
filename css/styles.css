@@ -875,7 +875,7 @@ h1 {
 }
 
 .authors-group-photo {
-    max-width: 900px;
+    max-width: 400px;
     margin: 0 auto 4rem;
     border-radius: 8px;
     overflow: hidden;
